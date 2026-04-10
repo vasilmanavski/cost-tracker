@@ -1,0 +1,8 @@
+target/
+.idea/
+*.iml
+data/
+uploads/
+.settings/
+.classpath
+.project

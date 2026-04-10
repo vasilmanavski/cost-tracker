@@ -1,0 +1,46 @@
+# ── Dependencies ──
+node_modules/
+
+# ── Build outputs ──
+frontend/dist/
+backend/target/
+
+# ── Database files (legacy H2) ──
+backend/data/
+data/
+
+# ── Uploaded files ──
+backend/uploads/
+uploads/
+
+# ── IDE ──
+.idea/
+*.iml
+.vscode/
+*.swp
+*.swo
+.classpath
+.project
+.settings/
+.factorypath
+.springBeans
+.sts4-cache
+
+# ── OS ──
+.DS_Store
+Thumbs.db
+
+# ── Environment / secrets ──
+.env
+.env.local
+.env.production
+.env.*.local
+backend/src/main/resources/application-local.yml
+backend/src/main/resources/application-local.properties
+
+# ── Logs ──
+*.log
+
+# ── Docker ──
+# Keep compose files, ignore local overrides
+docker-compose.override.yml
