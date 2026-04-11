@@ -1,4 +1,7 @@
 # Production profile — all values come from environment variables
+server:
+  port: ${PORT:8080}
+
 spring:
   datasource:
     url: ${DB_URL}

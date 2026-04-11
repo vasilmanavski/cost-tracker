@@ -141,7 +141,7 @@ public class OpenAiExtractionService implements ExtractionService {
             String merchant = textOrNull(data, "merchant");
             String expenseDate = textOrNull(data, "date");
             BigDecimal amount = decimalOrNull(data, "amount");
-            String currency = textOrDefault(data, "currency", "USD");
+            String currency = textOrDefault(data, "currency", "MKD");
             String category = textOrDefault(data, "category", "other");
             String description = textOrNull(data, "description");
 
@@ -227,7 +227,7 @@ public class OpenAiExtractionService implements ExtractionService {
 
     private ExtractionResultDTO fallbackResult(String receiptImageRelativePath, String warning) {
         return new ExtractionResultDTO(
-                null, null, null, "USD", "other",
+                null, null, null, "MKD", "other",
                 null, List.of(), "LOW",
                 Map.of("merchant", "LOW", "date", "LOW", "amount", "LOW", "lineItems", "LOW"),
                 receiptImageRelativePath, true,
@@ -312,7 +312,7 @@ public class OpenAiExtractionService implements ExtractionService {
               "merchant": "Store/restaurant name (string or null if unreadable)",
               "date": "YYYY-MM-DD format (string or null if unreadable)",
               "amount": total amount as a number (the final total including tax, or null),
-              "currency": "3-letter currency code, default USD",
+              "currency": "3-letter currency code, default MKD",
               "category": "one of: groceries, restaurants, coffee, transport, bills, shopping, health, entertainment, travel, subscriptions, other",
               "description": "Brief 3-8 word description of the purchase",
               "lineItems": [

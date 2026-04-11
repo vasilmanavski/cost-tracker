@@ -21,7 +21,7 @@ public class MockExtractionService implements ExtractionService {
                 "Whole Foods Market",
                 LocalDate.now().minusDays(1).toString(),
                 new BigDecimal("43.97"),
-                "USD",
+                "MKD",
                 "groceries",
                 "Groceries at Whole Foods Market",
                 List.of(

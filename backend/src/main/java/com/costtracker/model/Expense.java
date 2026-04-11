@@ -27,7 +27,7 @@ public class Expense {
     private BigDecimal amount;
 
     @Column(nullable = false, length = 3)
-    private String currency = "USD";
+    private String currency = "MKD";
 
     @Column(nullable = false, length = 50)
     private String category;
