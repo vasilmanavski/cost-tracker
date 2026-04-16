@@ -1,51 +1,76 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { ReceiptUpload } from '../components/receipt/ReceiptUpload'
-import { extractReceipt } from '../api/receipts'
-import type { ExtractionResult } from '../types/extraction'
+import {
+  CameraIcon,
+  DocumentTextIcon,
+  ClipboardDocumentCheckIcon,
+} from '@heroicons/react/24/outline'
+
+const futureSteps = [
+  {
+    icon: CameraIcon,
+    title: 'Upload receipt',
+    description: 'Snap a photo or drag & drop an image of your receipt',
+  },
+  {
+    icon: DocumentTextIcon,
+    title: 'Extract details',
+    description: 'AI reads the merchant, amount, date, and line items automatically',
+  },
+  {
+    icon: ClipboardDocumentCheckIcon,
+    title: 'Review & save',
+    description: 'Verify the extracted data and save it as an expense in one click',
+  },
+]
 
 export function UploadReceiptPage() {
-  const navigate = useNavigate()
-  const [isUploading, setIsUploading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-
-  const handleFileSelected = async (file: File) => {
-    setIsUploading(true)
-    setError(null)
-
-    try {
-      const result: ExtractionResult = await extractReceipt(file)
-      // Navigate to review page, passing extraction data via state
-      navigate('/expenses/review', { state: { extraction: result } })
-    } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : 'Extraction failed'
-      setError(`Failed to extract receipt data: ${message}. You can try again or add the expense manually.`)
-    } finally {
-      setIsUploading(false)
-    }
-  }
-
   return (
     <div className="max-w-lg">
-      <h2 className="text-2xl font-semibold text-gray-900 mb-2">Scan Receipt</h2>
-      <p className="text-sm text-gray-500 mb-6">
-        Upload a photo of your receipt. We'll extract the merchant, amount, date, and items.
-        You can review and edit everything before saving.
+      {/* Header with badge */}
+      <div className="flex items-center gap-3 mb-2">
+        <h2 className="text-2xl font-semibold text-gray-900">Scan Receipt</h2>
+        <span className="inline-flex items-center rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-medium text-amber-800">
+          Coming Soon
+        </span>
+      </div>
+      <p className="text-sm text-gray-500 mb-8">
+        Receipt scanning and smart extraction are currently under development.
+        This feature will be available in an upcoming release.
       </p>
 
-      <ReceiptUpload onFileSelected={handleFileSelected} isUploading={isUploading} />
+      {/* Disabled dropzone */}
+      <div className="rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 p-10 text-center select-none">
+        <CameraIcon className="mx-auto h-10 w-10 text-gray-300" />
+        <p className="mt-3 text-sm font-medium text-gray-400">
+          Drag & drop a receipt image
+        </p>
+        <p className="mt-1 text-xs text-gray-300">
+          PNG, JPG, or PDF up to 10 MB
+        </p>
+        <button
+          disabled
+          className="mt-5 inline-flex items-center rounded-lg bg-gray-200 px-4 py-2 text-sm font-medium text-gray-400 cursor-not-allowed"
+        >
+          Upload & Scan
+        </button>
+      </div>
 
-      {error && (
-        <div className="mt-4 bg-red-50 border border-red-200 rounded-lg p-3">
-          <p className="text-sm text-red-700">{error}</p>
-          <button
-            onClick={() => navigate('/expenses/new')}
-            className="mt-2 text-sm text-red-700 underline hover:text-red-900"
-          >
-            Enter expense manually instead
-          </button>
+      {/* Future functionality preview */}
+      <div className="mt-8">
+        <h3 className="text-sm font-medium text-gray-700 mb-4">How it will work</h3>
+        <div className="space-y-4">
+          {futureSteps.map((step, i) => (
+            <div key={i} className="flex items-start gap-3">
+              <div className="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-lg bg-gray-100">
+                <step.icon className="h-4 w-4 text-gray-400" />
+              </div>
+              <div>
+                <p className="text-sm font-medium text-gray-600">{step.title}</p>
+                <p className="text-xs text-gray-400">{step.description}</p>
+              </div>
+            </div>
+          ))}
         </div>
-      )}
+      </div>
     </div>
   )
 }
