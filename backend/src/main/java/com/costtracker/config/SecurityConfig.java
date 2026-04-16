@@ -45,6 +45,13 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/api/health").permitAll()
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                // Static frontend resources
+                .requestMatchers("/", "/index.html", "/assets/**", "/favicon.ico").permitAll()
+                // SPA catch-all: any path that doesn't start with /api or /uploads
+                .requestMatchers(request -> {
+                    String path = request.getServletPath();
+                    return !path.startsWith("/api/") && !path.startsWith("/uploads/");
+                }).permitAll()
                 // Everything else requires authentication
                 .anyRequest().authenticated()
             )
