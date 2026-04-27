@@ -2,18 +2,28 @@ package com.costtracker.service.email;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 /**
- * Development email sender that logs verification tokens to the console.
- * <p>
- * In development, check the backend console output for the verification URL.
- * Replace this with a real email sender (SMTP, SendGrid, etc.) for production.
+ * Development email sender that logs emails to the console.
+ * Active when the "prod" profile is NOT active.
  */
 @Component
+@Profile("!prod")
 public class LoggingEmailSender implements EmailSender {
 
     private static final Logger log = LoggerFactory.getLogger(LoggingEmailSender.class);
+
+    @Override
+    public void sendEmail(String to, String subject, String htmlBody) {
+        log.info("========================================");
+        log.info("EMAIL (dev mode)");
+        log.info("To: {}", to);
+        log.info("Subject: {}", subject);
+        log.info("Body: {}", htmlBody);
+        log.info("========================================");
+    }
 
     @Override
     public void sendVerificationEmail(String to, String token) {
