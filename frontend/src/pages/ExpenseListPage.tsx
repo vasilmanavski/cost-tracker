@@ -27,7 +27,7 @@ export function ExpenseListPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
         <h2 className="text-2xl font-semibold text-gray-900">Expenses</h2>
         <Link
           to="/expenses/new"
@@ -65,7 +65,7 @@ export function ExpenseListPage() {
 
           {/* Pagination */}
           {data && data.totalPages > 1 && (
-            <div className="flex items-center justify-between mt-4 text-sm">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mt-4 text-sm">
               <span className="text-gray-500">
                 Page {data.number + 1} of {data.totalPages} ({data.totalElements} total)
               </span>

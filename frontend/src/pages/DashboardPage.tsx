@@ -18,7 +18,7 @@ export function DashboardPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
         <h2 className="text-2xl font-semibold text-gray-900">Dashboard</h2>
         <div className="flex gap-2">
           <Link

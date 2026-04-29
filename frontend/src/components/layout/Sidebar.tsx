@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
 import {
@@ -6,6 +7,8 @@ import {
   PlusCircleIcon,
   CameraIcon,
   ArrowRightStartOnRectangleIcon,
+  Bars3Icon,
+  XMarkIcon,
 } from '@heroicons/react/24/outline'
 
 const navItems = [
@@ -17,11 +20,19 @@ const navItems = [
 
 export function Sidebar() {
   const { user, logout } = useAuth()
+  const [open, setOpen] = useState(false)
 
-  return (
-    <aside className="w-56 bg-white border-r border-gray-200 flex flex-col">
-      <div className="p-4 border-b border-gray-200">
+  const sidebarContent = (
+    <>
+      <div className="p-4 border-b border-gray-200 flex items-center justify-between">
         <h1 className="text-lg font-semibold text-gray-900">Cost Tracker</h1>
+        <button
+          onClick={() => setOpen(false)}
+          className="md:hidden p-1 text-gray-400 hover:text-gray-600"
+          aria-label="Close menu"
+        >
+          <XMarkIcon className="h-5 w-5" />
+        </button>
       </div>
       <nav className="flex-1 p-3 space-y-1">
         {navItems.map((item) => (
@@ -29,6 +40,7 @@ export function Sidebar() {
             key={item.to}
             to={item.to}
             end={item.to === '/'}
+            onClick={() => setOpen(false)}
             className={({ isActive }) =>
               `flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                 isActive
@@ -61,6 +73,44 @@ export function Sidebar() {
           Sign out
         </button>
       </div>
-    </aside>
+    </>
+  )
+
+  return (
+    <>
+      {/* Mobile top bar */}
+      <div className="md:hidden fixed top-0 left-0 right-0 z-40 bg-white border-b border-gray-200 flex items-center justify-between px-4 h-14">
+        <h1 className="text-lg font-semibold text-gray-900">Cost Tracker</h1>
+        <button
+          onClick={() => setOpen(true)}
+          className="p-2 text-gray-600 hover:text-gray-900"
+          aria-label="Open menu"
+        >
+          <Bars3Icon className="h-6 w-6" />
+        </button>
+      </div>
+
+      {/* Mobile overlay */}
+      {open && (
+        <div
+          className="md:hidden fixed inset-0 z-40 bg-black/30"
+          onClick={() => setOpen(false)}
+        />
+      )}
+
+      {/* Mobile drawer */}
+      <aside
+        className={`md:hidden fixed top-0 left-0 z-50 h-full w-64 bg-white border-r border-gray-200 flex flex-col transform transition-transform duration-200 ${
+          open ? 'translate-x-0' : '-translate-x-full'
+        }`}
+      >
+        {sidebarContent}
+      </aside>
+
+      {/* Desktop sidebar */}
+      <aside className="hidden md:flex w-56 bg-white border-r border-gray-200 flex-col shrink-0">
+        {sidebarContent}
+      </aside>
+    </>
   )
 }

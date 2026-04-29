@@ -35,63 +35,116 @@ export function ExpenseList({ expenses, onDelete, deletingId }: ExpenseListProps
   }
 
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full text-sm">
-        <thead>
-          <tr className="border-b border-gray-200 text-left text-gray-500">
-            <th className="py-2 pr-4 font-medium">Date</th>
-            <th className="py-2 pr-4 font-medium">Merchant</th>
-            <th className="py-2 pr-4 font-medium">Description</th>
-            <th className="py-2 pr-4 font-medium">Category</th>
-            <th className="py-2 pr-4 font-medium text-right">Amount</th>
-            <th className="py-2 font-medium text-right">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {expenses.map((expense) => {
-            const isDeleting = deletingId === expense.id
-            return (
-              <tr
-                key={expense.id}
-                className={`border-b border-gray-100 hover:bg-gray-50 ${isDeleting ? 'opacity-50' : ''}`}
-              >
-                <td className="py-2.5 pr-4 text-gray-600">{formatDate(expense.expenseDate)}</td>
-                <td className="py-2.5 pr-4 font-medium text-gray-900">{expense.merchant}</td>
-                <td className="py-2.5 pr-4 text-gray-600 max-w-xs truncate">{expense.description}</td>
-                <td className="py-2.5 pr-4">
+    <>
+      {/* Mobile: card list */}
+      <div className="sm:hidden space-y-3">
+        {expenses.map((expense) => {
+          const isDeleting = deletingId === expense.id
+          return (
+            <div
+              key={expense.id}
+              className={`bg-white border border-gray-200 rounded-lg p-3 ${isDeleting ? 'opacity-50' : ''}`}
+            >
+              <div className="flex items-start justify-between gap-2">
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-medium text-gray-900 truncate">{expense.merchant}</p>
+                  <p className="text-xs text-gray-500 truncate">{expense.description}</p>
+                </div>
+                <p className="text-sm font-medium text-gray-900 whitespace-nowrap">
+                  {formatCurrency(expense.amount, expense.currency)}
+                </p>
+              </div>
+              <div className="flex items-center justify-between mt-2">
+                <div className="flex items-center gap-2">
                   <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium ${categoryColors[expense.category] || categoryColors.other}`}>
                     {expense.category}
                   </span>
-                </td>
-                <td className="py-2.5 pr-4 text-right font-medium text-gray-900">
-                  {formatCurrency(expense.amount, expense.currency)}
-                </td>
-                <td className="py-2.5 text-right">
-                  <div className="flex justify-end gap-1">
-                    <Link
-                      to={`/expenses/${expense.id}/edit`}
-                      className="p-1.5 text-gray-400 hover:text-blue-600 rounded hover:bg-blue-50"
-                      aria-label={`Edit ${expense.merchant}`}
-                    >
-                      <PencilIcon className="h-4 w-4" />
-                    </Link>
-                    <button
-                      onClick={() => {
-                        if (confirm('Delete this expense?')) onDelete(expense.id)
-                      }}
-                      disabled={isDeleting}
-                      className="p-1.5 text-gray-400 hover:text-red-600 rounded hover:bg-red-50 disabled:opacity-50 disabled:cursor-not-allowed"
-                      aria-label={`Delete ${expense.merchant}`}
-                    >
-                      <TrashIcon className="h-4 w-4" />
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            )
-          })}
-        </tbody>
-      </table>
-    </div>
+                  <span className="text-xs text-gray-400">{formatDate(expense.expenseDate)}</span>
+                </div>
+                <div className="flex gap-1">
+                  <Link
+                    to={`/expenses/${expense.id}/edit`}
+                    className="p-1.5 text-gray-400 hover:text-blue-600 rounded hover:bg-blue-50"
+                    aria-label={`Edit ${expense.merchant}`}
+                  >
+                    <PencilIcon className="h-4 w-4" />
+                  </Link>
+                  <button
+                    onClick={() => {
+                      if (confirm('Delete this expense?')) onDelete(expense.id)
+                    }}
+                    disabled={isDeleting}
+                    className="p-1.5 text-gray-400 hover:text-red-600 rounded hover:bg-red-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                    aria-label={`Delete ${expense.merchant}`}
+                  >
+                    <TrashIcon className="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          )
+        })}
+      </div>
+
+      {/* Desktop: table */}
+      <div className="hidden sm:block overflow-x-auto">
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="border-b border-gray-200 text-left text-gray-500">
+              <th className="py-2 pr-4 font-medium">Date</th>
+              <th className="py-2 pr-4 font-medium">Merchant</th>
+              <th className="py-2 pr-4 font-medium">Description</th>
+              <th className="py-2 pr-4 font-medium">Category</th>
+              <th className="py-2 pr-4 font-medium text-right">Amount</th>
+              <th className="py-2 font-medium text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {expenses.map((expense) => {
+              const isDeleting = deletingId === expense.id
+              return (
+                <tr
+                  key={expense.id}
+                  className={`border-b border-gray-100 hover:bg-gray-50 ${isDeleting ? 'opacity-50' : ''}`}
+                >
+                  <td className="py-2.5 pr-4 text-gray-600">{formatDate(expense.expenseDate)}</td>
+                  <td className="py-2.5 pr-4 font-medium text-gray-900">{expense.merchant}</td>
+                  <td className="py-2.5 pr-4 text-gray-600 max-w-xs truncate">{expense.description}</td>
+                  <td className="py-2.5 pr-4">
+                    <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium ${categoryColors[expense.category] || categoryColors.other}`}>
+                      {expense.category}
+                    </span>
+                  </td>
+                  <td className="py-2.5 pr-4 text-right font-medium text-gray-900">
+                    {formatCurrency(expense.amount, expense.currency)}
+                  </td>
+                  <td className="py-2.5 text-right">
+                    <div className="flex justify-end gap-1">
+                      <Link
+                        to={`/expenses/${expense.id}/edit`}
+                        className="p-1.5 text-gray-400 hover:text-blue-600 rounded hover:bg-blue-50"
+                        aria-label={`Edit ${expense.merchant}`}
+                      >
+                        <PencilIcon className="h-4 w-4" />
+                      </Link>
+                      <button
+                        onClick={() => {
+                          if (confirm('Delete this expense?')) onDelete(expense.id)
+                        }}
+                        disabled={isDeleting}
+                        className="p-1.5 text-gray-400 hover:text-red-600 rounded hover:bg-red-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                        aria-label={`Delete ${expense.merchant}`}
+                      >
+                        <TrashIcon className="h-4 w-4" />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
+      </div>
+    </>
   )
 }

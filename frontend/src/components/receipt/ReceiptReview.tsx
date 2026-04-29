@@ -130,7 +130,7 @@ export function ReceiptReview({ extraction, onSubmit, isSubmitting }: ReceiptRev
             {errors.merchant && <p className="text-red-500 text-xs mt-1">{errors.merchant.message}</p>}
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <div className="flex items-center gap-2 mb-1">
                 <label className="text-sm font-medium text-gray-700">Amount *</label>
@@ -163,7 +163,7 @@ export function ReceiptReview({ extraction, onSubmit, isSubmitting }: ReceiptRev
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Category *</label>
               <select

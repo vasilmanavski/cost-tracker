@@ -11,13 +11,13 @@ export function ExpenseFilters({ category, from, to, onChange }: ExpenseFiltersP
   const { data: categories } = useCategories()
 
   return (
-    <div className="flex flex-wrap gap-3 items-end mb-4">
+    <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3 sm:items-end mb-4">
       <div>
         <label className="block text-xs font-medium text-gray-500 mb-1">Category</label>
         <select
           value={category}
           onChange={(e) => onChange({ category: e.target.value, from, to })}
-          className="border border-gray-300 rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full sm:w-auto border border-gray-300 rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="">All categories</option>
           {categories?.map((cat) => (
@@ -33,7 +33,7 @@ export function ExpenseFilters({ category, from, to, onChange }: ExpenseFiltersP
           type="date"
           value={from}
           onChange={(e) => onChange({ category, from: e.target.value, to })}
-          className="border border-gray-300 rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full sm:w-auto border border-gray-300 rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
       <div>
@@ -42,7 +42,7 @@ export function ExpenseFilters({ category, from, to, onChange }: ExpenseFiltersP
           type="date"
           value={to}
           onChange={(e) => onChange({ category, from, to: e.target.value })}
-          className="border border-gray-300 rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full sm:w-auto border border-gray-300 rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
       {(category || from || to) && (
