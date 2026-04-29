@@ -31,10 +31,6 @@ export function CheckEmailPage() {
             Click the link to activate your account.
           </p>
 
-          <p className="text-xs text-gray-400 mb-4">
-            In development mode, check the backend console for the verification link.
-          </p>
-
           {resendStatus === 'sent' ? (
             <p className="text-sm text-green-600">Verification email resent!</p>
           ) : resendStatus === 'error' ? (
