@@ -58,7 +58,12 @@ services:
     depends_on:
       - backend
     ports:
-      - "${APP_PORT:-80}:80"
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./frontend/nginx.prod.conf:/etc/nginx/conf.d/default.conf:ro
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - /var/www/certbot:/var/www/certbot:ro
 
 volumes:
   pgdata_prod:
