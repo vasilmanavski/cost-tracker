@@ -2,6 +2,7 @@ package com.costtracker.service;
 
 import com.costtracker.dto.DashboardSummaryResponse;
 import com.costtracker.dto.DashboardSummaryResponse.CategoryTotal;
+import com.costtracker.dto.DashboardSummaryResponse.CurrencyTotal;
 import com.costtracker.model.Category;
 import com.costtracker.repository.CategoryRepository;
 import com.costtracker.repository.ExpenseRepository;
@@ -29,20 +30,26 @@ public class DashboardService {
         LocalDate monthStart = month.atDay(1);
         LocalDate monthEnd = month.atEndOfMonth();
 
-        BigDecimal totalAllTime = expenseRepository.sumAllExpenses(userId);
-        BigDecimal totalThisMonth = expenseRepository.sumExpensesInRange(userId, monthStart, monthEnd);
+        List<CurrencyTotal> totalAllTime = expenseRepository.sumAllExpensesByCurrency(userId).stream()
+                .map(row -> new CurrencyTotal((String) row[0], (BigDecimal) row[1]))
+                .toList();
+
+        List<CurrencyTotal> totalThisMonth = expenseRepository.sumExpensesInRangeByCurrency(userId, monthStart, monthEnd).stream()
+                .map(row -> new CurrencyTotal((String) row[0], (BigDecimal) row[1]))
+                .toList();
 
         Map<String, String> categoryDisplayNames = categoryRepository.findAll().stream()
                 .collect(Collectors.toMap(Category::getName, Category::getDisplayName));
 
-        List<Object[]> rawCategories = expenseRepository.sumByCategoryInRange(userId, monthStart, monthEnd);
+        List<Object[]> rawCategories = expenseRepository.sumByCategoryAndCurrencyInRange(userId, monthStart, monthEnd);
 
         List<CategoryTotal> byCategory = rawCategories.stream()
                 .map(row -> new CategoryTotal(
                         (String) row[0],
                         categoryDisplayNames.getOrDefault((String) row[0], (String) row[0]),
-                        (BigDecimal) row[1],
-                        (Long) row[2]
+                        (String) row[1],
+                        (BigDecimal) row[2],
+                        (Long) row[3]
                 ))
                 .toList();
 

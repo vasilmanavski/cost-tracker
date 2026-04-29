@@ -54,33 +54,25 @@ export function EditExpensePage() {
 
   return (
     <div>
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
-        <h2 className="text-2xl font-semibold text-gray-900">Edit Expense</h2>
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => navigate('/expenses')}
-            className="text-sm text-gray-500 hover:text-gray-700 font-medium"
-          >
-            Cancel
-          </button>
-          <button
-            onClick={handleDelete}
-            disabled={deleteMutation.isPending}
-            className="text-sm text-red-600 hover:text-red-700 font-medium disabled:text-red-300"
-          >
-            {deleteMutation.isPending ? 'Deleting...' : 'Delete'}
-          </button>
-        </div>
+      <div className="flex items-center justify-between mb-5 max-w-md">
+        <h2 className="text-xl font-semibold text-gray-900">Edit Expense</h2>
+        <button
+          onClick={handleDelete}
+          disabled={deleteMutation.isPending}
+          className="text-sm text-red-500 hover:text-red-700 font-medium disabled:text-red-300 transition-colors"
+        >
+          {deleteMutation.isPending ? 'Deleting...' : 'Delete'}
+        </button>
       </div>
 
       {updateMutation.isError && (
-        <div className="mb-4">
+        <div className="mb-4 max-w-md">
           <ErrorAlert message="Failed to update expense. Please check the form and try again." />
         </div>
       )}
 
       {deleteMutation.isError && (
-        <div className="mb-4">
+        <div className="mb-4 max-w-md">
           <ErrorAlert message="Failed to delete expense. Please try again." />
         </div>
       )}
@@ -102,12 +94,12 @@ export function EditExpensePage() {
       />
 
       {expense.receiptImagePath && (
-        <div className="mt-6">
-          <h3 className="text-sm font-medium text-gray-500 mb-2">Receipt Image</h3>
+        <div className="mt-6 max-w-md">
+          <h3 className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">Receipt Image</h3>
           <img
             src={`/api/receipts/images/${expense.receiptImagePath.replace('receipts/', '')}`}
             alt="Receipt"
-            className="max-w-sm rounded border border-gray-200"
+            className="w-full rounded-lg border border-gray-200"
           />
         </div>
       )}

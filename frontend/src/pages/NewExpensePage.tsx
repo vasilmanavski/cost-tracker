@@ -16,10 +16,10 @@ export function NewExpensePage() {
 
   return (
     <div>
-      <h2 className="text-2xl font-semibold text-gray-900 mb-6">Add Expense</h2>
+      <h2 className="text-xl font-semibold text-gray-900 mb-5">Add Expense</h2>
 
       {createMutation.isError && (
-        <div className="mb-4 max-w-lg">
+        <div className="mb-4 max-w-md">
           <ErrorAlert message="Failed to create expense. Please check the form and try again." />
         </div>
       )}
